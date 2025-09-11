@@ -274,6 +274,7 @@ MareArts Crystal is part of our comprehensive AI and utility package ecosystem:
 | **[marearts-anpr](https://github.com/MareArts/MareArts-ANPR)** 🚗 | License Plate Recognition | Vehicle identification, parking systems, traffic monitoring |
 | **[marearts-road-objects](https://github.com/MareArts/MareArts-Road-Objects)** 🛣️ | Road Object Detection | Traffic analysis, smart city applications, safety systems |
 | **[marearts-crystal](https://github.com/MareArts/marearts-crystal)** 🔐 | Encryption & Licensing | Software licensing, data security, key management |
+| **[marearts-xcolor](https://github.com/MareArts/MareArts-Xcolor)** 🔐 | High-performance color extraction library | color detection app, dominent color query systems |
 
 ### Why Choose MareArts Packages?
 
@@ -282,8 +283,6 @@ MareArts Crystal is part of our comprehensive AI and utility package ecosystem:
 - **🔧 Easy Integration**: Simple APIs, comprehensive documentation
 - **🌍 Cross-Platform**: Windows, macOS, Linux support
 - **📦 Complete Ecosystem**: Packages work seamlessly together
-
-**Explore More**: Visit [marearts.com](https://marearts.com) for complete solutions and enterprise licensing.
 
 ---
 
@@ -300,11 +299,7 @@ MIT License - Free for commercial and personal use.
 
 <div align="center">
 
-**Made with ❤️ by [MareArts](https://marearts.com)**
-
 *Empowering developers with AI-powered solutions*
-
-[![Visit MareArts.com](https://img.shields.io/badge/Visit-MareArts.com-blue?style=for-the-badge&logo=google-chrome)](https://marearts.com)
-
+**Made with ❤️ by [MareArts](https://marearts.com)**
 </div>
 # MareArts-CRYSTAL
