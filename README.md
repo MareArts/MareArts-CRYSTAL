@@ -289,9 +289,7 @@ MareArts Crystal is part of our comprehensive AI and utility package ecosystem:
 
 ## 📞 Support & Contact
 
-- **Documentation**: [marearts.com/docs](https://marearts.com/docs)
-- **Issues**: [GitHub Issues](https://github.com/MareArts/marearts-crystal/issues)
-- **Business Inquiries**: [contact@marearts.com](mailto:contact@marearts.com)
+- **Business Inquiries**: [hello@marearts.com](mailto:hello@marearts.com)
 - **Website**: [marearts.com](https://marearts.com)
 
 ## 📄 License
