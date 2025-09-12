@@ -53,6 +53,10 @@ venv.bak/
 *.swo
 *~
 
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
 # OS
 .DS_Store
 .DS_Store?
