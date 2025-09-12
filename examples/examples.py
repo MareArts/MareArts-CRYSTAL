@@ -13,6 +13,8 @@ def example_quick_start():
     print("=== Quick Start Example ===")
     
     from marearts_crystal import ma_crystal
+    import marearts_crystal
+    print(f"MareArts Crystal version: {marearts_crystal.__version__}")
 
     # Initialize
     mask = ma_crystal("your-secret-key")
@@ -28,10 +30,11 @@ def example_quick_start():
     print(f"Success: {decrypted == data}")
 
     # Generate serial key
-    serial_key = mask.generate_serial_key("user@email.com", "2025-09-10", "2025-12-31")
+    serial_key, signature = mask.generate_serial_key("user@email.com", "2025-09-10", "2025-12-31")
     valid = mask.validate_serial_key("user@email.com", serial_key)
     
-    print(f"\nSerial Key: {serial_key[:50]}...")
+    print(f"\nSerial Key: {serial_key}")
+    print(f"Signature: {signature}")
     print(f"Validation: {valid}")
     print("Quick Start completed successfully!\n")
 
@@ -46,16 +49,17 @@ def example_license_management():
     # Generate license key
     today = mask.get_today_date()
     expire = mask.generate_end_date(years=1)  # 1 year license
-    license_key = mask.generate_serial_key("customer@email.com", today, expire)
+    license_key, signature = mask.generate_serial_key("customer@email.com", today, expire)
 
     print(f"Today: {today}")
     print(f"Expires: {expire}")
-    print(f"License Key: {license_key[:50]}...")
+    print(f"License Key: {license_key}")
+    print(f"Signature: {signature}")
 
     # Validate license
     result = mask.validate_serial_key("customer@email.com", license_key)
     if result:
-        start_date, end_date = result
+        start_date, end_date, signature = result
         if mask.validate_date(start_date, end_date):
             print("✅ License is active")
         else:
@@ -69,23 +73,24 @@ def example_file_encryption():
     
     from marearts_crystal import ma_crystal
     
-    mask = ma_crystal("test-secret-key")
+    mask = ma_crystal("your-secret-key")
     
     # Create test files in temp directory
     with tempfile.TemporaryDirectory() as temp_dir:
-        original_file = os.path.join(temp_dir, "document.pdf")
-        encrypted_file = os.path.join(temp_dir, "document.pdf.enc")
-        decrypted_file = os.path.join(temp_dir, "document_decrypted.pdf")
+        # Create a test file (simulating screen.png)
+        test_file = os.path.join(temp_dir, "screen.png")
+        encrypted_file = os.path.join(temp_dir, "screen.png.enc")
+        decrypted_file = os.path.join(temp_dir, "screen_decrypted.png")
         
-        # Create test data
-        test_data = b"This is test PDF content for encryption demo"
+        # Create test data (simulating image data)
+        test_data = b"This is test image data for encryption demo" * 100
         
-        # Write original file
-        with open(original_file, "wb") as f:
+        # Write test file
+        with open(test_file, "wb") as f:
             f.write(test_data)
         
         # Encrypt a file
-        with open(original_file, "rb") as f:
+        with open(test_file, "rb") as f:
             file_data = f.read()
 
         encrypted = mask.encrypt_data(file_data)
@@ -181,7 +186,7 @@ def example_license_manager_class():
             if not result:
                 return False, "Invalid license key"
             
-            start_date, end_date = result
+            start_date, end_date, signature = result
             if self.mask.validate_date(start_date, end_date):
                 days_left = (datetime.strptime(end_date, "%Y-%m-%d") - datetime.now()).days
                 return True, f"Valid until {end_date} ({days_left} days remaining)"
@@ -192,11 +197,11 @@ def example_license_manager_class():
     lm = LicenseManager("company-secret-2024")
 
     # Create licenses
-    trial_key = lm.create_license("trial@user.com", "trial")
-    premium_key = lm.create_license("premium@user.com", "premium")
+    trial_key, trial_sig = lm.create_license("trial@user.com", "trial")
+    premium_key, premium_sig = lm.create_license("premium@user.com", "premium")
 
-    print(f"Trial key: {trial_key[:50]}...")
-    print(f"Premium key: {premium_key[:50]}...")
+    print(f"Trial key: {trial_key}")
+    print(f"Premium key: {premium_key}")
 
     # Verify licenses
     valid, message = lm.verify_license("premium@user.com", premium_key)
@@ -251,7 +256,7 @@ def example_api_methods():
     print("Testing all API methods:")
     
     # Test basic methods
-    key = mask.generate_serial_key("user", "2025-09-10", "2025-12-31")
+    key, signature = mask.generate_serial_key("user", "2025-09-10", "2025-12-31")
     result = mask.validate_serial_key("user", key)
     print(f"Serial key validation: {result is not None}")
     

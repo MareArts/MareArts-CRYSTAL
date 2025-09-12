@@ -1,236 +1,125 @@
-# MareArts Crystal 🔐
+# MareArts Crystal
 
 [![PyPI](https://img.shields.io/pypi/v/marearts-crystal.svg)](https://pypi.org/project/marearts-crystal/)
 [![Python versions](https://img.shields.io/pypi/pyversions/marearts-crystal.svg)](https://pypi.org/project/marearts-crystal/)
 [![Downloads](https://pepy.tech/badge/marearts-crystal)](https://pepy.tech/project/marearts-crystal)
 [![License](https://img.shields.io/pypi/l/marearts-crystal.svg)](https://github.com/MareArts/marearts-crystal/blob/main/LICENSE)
-[![Status](https://img.shields.io/pypi/status/marearts-crystal.svg)](https://pypi.org/project/marearts-crystal/)
 
-High-performance encryption library for Python - Simple, Secure, Compatible.
+Professional encryption library for Python applications. Secure your software licenses, encrypt sensitive files, and protect user data with military-grade encryption.
 
-**Part of the [MareArts AI Package Family](https://marearts.com) 🚀**
+**What is this?** A tool that lets you encrypt (lock) and decrypt (unlock) data using secret keys, like a digital safe that only you can open.
 
-## 🚀 Installation
+**Use Cases:**
+- 🔐 **Software Licensing** - Generate and validate license keys for your applications
+- 📁 **File Protection** - Encrypt sensitive documents, images, or any files
+- 🔑 **Password Management** - Securely store passwords and credentials
+- ⚙️ **Config Security** - Protect API keys and database credentials in config files
+- 📊 **Data Privacy** - Encrypt user data for GDPR/HIPAA compliance
+
+**Why MareArts Crystal?**
+- **Zero Setup** - Pre-compiled for all platforms, just `pip install` and use
+- **Production Ready** - Used by companies for real-world applications
+- **Fast** - C++ performance with Python simplicity
+
+## Installation
 
 ```bash
 pip install marearts-crystal
 ```
 
-**System Requirements:**
-- Python 3.9, 3.10, 3.11, 3.12
-- Works on Windows, macOS, and Linux
-- Dependencies: cryptography (automatically installed)
+Requirements: Python 3.9-3.12, Windows/macOS/Linux
 
 ## Quick Start
 
-```python
-from marearts_crystal import ma_crystal
-
-# Initialize
-mask = ma_crystal("your-secret-key")
-
-# Encrypt data
-data = b"Sensitive information"
-encrypted = mask.encrypt_data(data)
-decrypted = mask.decrypt_data(encrypted)
-
-# Generate serial key
-serial_key = mask.generate_serial_key("user@email.com", "2025-09-10", "2025-12-31")
-valid = mask.validate_serial_key("user@email.com", serial_key)
-```
-
-## Core Features
-
-### 🔑 License Key Management
+### License Key Generation
 
 ```python
 from marearts_crystal import ma_crystal
 
 mask = ma_crystal("your-company-secret")
 
-# Generate license key
-today = mask.get_today_date()
-expire = mask.generate_end_date(years=1)  # 1 year license
-license_key = mask.generate_serial_key("customer@email.com", today, expire)
+# Generate license key with signature
+today = mask.get_today_date()  # "2025-09-12"
+expire = mask.generate_end_date(years=1)  # "2026-09-12"
+license_key, signature = mask.generate_serial_key("customer@email.com", today, expire)
 
 print(f"License Key: {license_key}")
+# Output: License Key: MAEV2:gAAAAABow91CXuG7dJR3eAWpEXj67RP-qboPAHiDGpVfd2dGN5yBXp...
+
+print(f"Signature: {signature}")
+# Output: Signature: a21521da5beb6d7c
 
 # Validate license
 result = mask.validate_serial_key("customer@email.com", license_key)
 if result:
-    start_date, end_date = result
+    start_date, end_date, signature = result
+    # start_date = "2025-09-12", end_date = "2026-09-12", signature = "a21521da5beb6d7c"
     if mask.validate_date(start_date, end_date):
-        print("✅ License is active")
-    else:
-        print("❌ License expired")
+        print(f"✅ License active until {end_date}")
+        # Output: ✅ License active until 2026-09-12
 ```
 
-### 🔐 File Encryption
+```python
+# Using signature for tracking
+license_db = {}  # Your database
+
+# Store license with signature
+license_key, signature = mask.generate_serial_key("user@email.com", today, expire)
+license_db[signature] = {
+    "email": "user@email.com",
+    "key": license_key,
+    "created": today
+}
+
+# Later, verify and track
+result = mask.validate_serial_key("user@email.com", license_key)
+if result:
+    start, end, sig = result
+    print(f"License {sig} is valid")  # Use signature as ID
+```
+
+### File Encryption
 
 ```python
-# Encrypt a file
-with open("screen.png", "rb") as f:
-    file_data = f.read()
+# Encrypt file
+with open("document.pdf", "rb") as f:
+    file_data = f.read()  # Read original file (e.g., 241979 bytes)
 
 encrypted = mask.encrypt_data(file_data)
+print(f"Encrypted size: {len(encrypted)} bytes")
+# Output: Encrypted size: 322724 bytes
 
-with open("screen.png.enc", "wb") as f:
+with open("document.pdf.enc", "wb") as f:
     f.write(encrypted)
 
-# Decrypt a file
-with open("screen.png.enc", "rb") as f:
+# Decrypt file
+with open("document.pdf.enc", "rb") as f:
     encrypted_data = f.read()
 
 decrypted = mask.decrypt_data(encrypted_data)
+print(f"Decrypted size: {len(decrypted)} bytes")
+# Output: Decrypted size: 241979 bytes (matches original)
 
-with open("screen_decrypted.png", "wb") as f:
+with open("document_decrypted.pdf", "wb") as f:
     f.write(decrypted)
+print("✅ File successfully decrypted")
+# Output: ✅ File successfully decrypted
 ```
 
-### 📝 Config Encryption
+## More Examples
 
-```python
-import json
-from marearts_crystal import ma_crystal
+### Python Examples ([View on GitHub](https://github.com/MareArts/marearts-crystal/tree/main/examples))
+- License key generation and validation
+- File encryption/decryption  
+- Config file encryption
+- License manager class implementation
+- Password vault implementation
+- All API methods demonstration
 
-mask = ma_crystal("app-secret-key")
-
-# Save encrypted config
-config = {
-    "api_key": "secret-api-key",
-    "database": "postgresql://localhost/mydb",
-    "debug": False
-}
-
-encrypted_config = mask.encrypt_string(json.dumps(config))
-with open("config.enc", "w") as f:
-    f.write(encrypted_config)
-
-# Load encrypted config
-with open("config.enc", "r") as f:
-    encrypted = f.read()
-
-decrypted = mask.decrypt_string(encrypted)
-config = json.loads(decrypted)
-print(config)
-```
-
-## Practical Examples
-
-### Software Licensing System
-
-```python
-from marearts_crystal import ma_crystal
-from datetime import datetime
-
-class LicenseManager:
-    def __init__(self, secret_key):
-        self.mask = ma_crystal(secret_key)
-    
-    def create_license(self, email, license_type="standard"):
-        today = self.mask.get_today_date()
-        
-        if license_type == "trial":
-            end_date = self.mask.generate_end_date(days=30)
-        elif license_type == "standard":
-            end_date = self.mask.generate_end_date(years=1)
-        elif license_type == "premium":
-            end_date = self.mask.generate_end_date(years=3)
-        else:  # lifetime
-            end_date = "2099-12-31"
-        
-        return self.mask.generate_serial_key(email, today, end_date)
-    
-    def verify_license(self, email, license_key):
-        result = self.mask.validate_serial_key(email, license_key)
-        if not result:
-            return False, "Invalid license key"
-        
-        start_date, end_date = result
-        if self.mask.validate_date(start_date, end_date):
-            days_left = (datetime.strptime(end_date, "%Y-%m-%d") - datetime.now()).days
-            return True, f"Valid until {end_date} ({days_left} days remaining)"
-        else:
-            return False, f"License expired on {end_date}"
-
-# Usage
-lm = LicenseManager("company-secret-2024")
-
-# Create licenses
-trial_key = lm.create_license("trial@user.com", "trial")
-premium_key = lm.create_license("premium@user.com", "premium")
-
-# Verify licenses
-valid, message = lm.verify_license("premium@user.com", premium_key)
-print(message)
-```
-
-### Secure Password Storage
-
-```python
-from marearts_crystal import ma_crystal
-
-class PasswordVault:
-    def __init__(self, master_password):
-        self.mask = ma_crystal(master_password)
-    
-    def store_password(self, service, username, password):
-        data = f"{service}|{username}|{password}"
-        return self.mask.encrypt_string(data)
-    
-    def get_password(self, encrypted_data):
-        decrypted = self.mask.decrypt_string(encrypted_data)
-        if decrypted:
-            service, username, password = decrypted.split("|")
-            return {"service": service, "username": username, "password": password}
-        return None
-
-# Usage
-vault = PasswordVault("master-password-123")
-
-# Store credentials
-encrypted = vault.store_password("GitHub", "john_doe", "ghp_secrettoken123")
-print(f"Encrypted: {encrypted[:50]}...")
-
-# Retrieve credentials
-credentials = vault.get_password(encrypted)
-print(f"Service: {credentials['service']}")
-print(f"Username: {credentials['username']}")
-```
-
-### Batch File Encryption
-
-```python
-import os
-from marearts_crystal import ma_crystal
-
-def encrypt_folder(folder_path, secret_key):
-    mask = ma_crystal(secret_key)
-    
-    for filename in os.listdir(folder_path):
-        if filename.endswith('.enc'):
-            continue  # Skip already encrypted files
-            
-        filepath = os.path.join(folder_path, filename)
-        
-        # Read file
-        with open(filepath, 'rb') as f:
-            data = f.read()
-        
-        # Encrypt
-        encrypted = mask.encrypt_data(data)
-        
-        # Save encrypted file
-        with open(f"{filepath}.enc", 'wb') as f:
-            f.write(encrypted)
-        
-        # Remove original (optional)
-        os.remove(filepath)
-        print(f"✅ Encrypted: {filename}")
-
-# Usage
-encrypt_folder("/path/to/sensitive/documents", "folder-secret-key")
-```
+### Jupyter Notebook ([Interactive Tutorial](https://github.com/MareArts/marearts-crystal/blob/main/examples/examples.ipynb))
+- Interactive step-by-step tutorial
+- Visual output of each operation
+- Real-time testing environment
 
 ## API Reference
 
@@ -238,8 +127,8 @@ encrypt_folder("/path/to/sensitive/documents", "folder-secret-key")
 
 | Method | Description | Example |
 |--------|-------------|---------|
-| `generate_serial_key(username, start_date, end_date)` | Generate a license key | `key = mask.generate_serial_key("user", "2025-09-10", "2025-12-31")` |
-| `validate_serial_key(username, serial_key)` | Validate a license key | `result = mask.validate_serial_key("user", key)` |
+| `generate_serial_key(username, start_date, end_date)` | Generate a license key with signature | `key, signature = mask.generate_serial_key("user", "2025-09-10", "2025-12-31")` |
+| `validate_serial_key(username, serial_key)` | Validate a license key | `result = mask.validate_serial_key("user", key)` # Returns (start_date, end_date, signature) |
 | `encrypt_string(text)` | Encrypt text | `encrypted = mask.encrypt_string("secret")` |
 | `decrypt_string(encrypted)` | Decrypt text | `text = mask.decrypt_string(encrypted)` |
 | `encrypt_data(bytes)` | Encrypt binary data | `encrypted = mask.encrypt_data(b"data")` |
@@ -257,49 +146,12 @@ encrypt_folder("/path/to/sensitive/documents", "folder-secret-key")
 | `string_to_secret_key(input_string)` | Derive key from string | `key = mask.string_to_secret_key("password")` |
 | `secret_key_to_string(secret_key, encrypted)` | Decrypt with provided key | `text = mask.secret_key_to_string(key, encrypted)` |
 
-## Security Features
 
-- ✅ **Automatic V2 Encryption** - New operations use enhanced security
-- ✅ **100% Backward Compatible** - Old encrypted data still works
-- ✅ **Rate Limiting** - Built-in brute force protection
-- ✅ **Binary Compilation** - Cython compilation hides implementation
-- ✅ **Input Validation** - Comprehensive input checking
+## Support
 
-## 🔗 MareArts AI Package Family
-
-MareArts Crystal is part of our comprehensive AI and utility package ecosystem:
-
-| Package | Description | Use Case |
-|---------|-------------|----------|
-| **[marearts-anpr](https://github.com/MareArts/MareArts-ANPR)** 🚗 | License Plate Recognition | Vehicle identification, parking systems, traffic monitoring |
-| **[marearts-road-objects](https://github.com/MareArts/MareArts-Road-Objects)** 🛣️ | Road Object Detection | Traffic analysis, smart city applications, safety systems |
-| **[marearts-crystal](https://github.com/MareArts/marearts-crystal)** 🔐 | Encryption & Licensing | Software licensing, data security, key management |
-| **[marearts-xcolor](https://github.com/MareArts/MareArts-Xcolor)** 🔐 | High-performance color extraction library | color detection app, dominent color query systems |
-
-### Why Choose MareArts Packages?
-
-- **🏆 Professional Grade**: Production-ready solutions
-- **⚡ High Performance**: Optimized for speed and efficiency  
-- **🔧 Easy Integration**: Simple APIs, comprehensive documentation
-- **🌍 Cross-Platform**: Windows, macOS, Linux support
-- **📦 Complete Ecosystem**: Packages work seamlessly together
-
----
-
-## 📞 Support & Contact
-
-- **Business Inquiries**: [hello@marearts.com](mailto:hello@marearts.com)
+- **Email**: hello@marearts.com
 - **Website**: [marearts.com](https://marearts.com)
 
-## 📄 License
+## License
 
-MIT License - Free for commercial and personal use.
-
----
-
-<div align="center">
-
-*Empowering developers with AI-powered solutions*
-**Made with ❤️ by [MareArts](https://marearts.com)**
-</div>
-# MareArts-CRYSTAL
+MIT License
