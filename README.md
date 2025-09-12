@@ -147,6 +147,17 @@ print("✅ File successfully decrypted")
 | `secret_key_to_string(secret_key, encrypted)` | Decrypt with provided key | `text = mask.secret_key_to_string(key, encrypted)` |
 
 
+## 🔗 MareArts AI Package Family
+
+MareArts Crystal is part of our comprehensive AI and utility package ecosystem:
+
+| Package | Description | Use Case |
+|---------|-------------|----------|
+| **[marearts-anpr](https://pypi.org/project/marearts-anpr/)** 🚗 | License Plate Recognition | Vehicle identification, parking systems, traffic monitoring |
+| **[marearts-road-objects](https://pypi.org/project/marearts-road-objects/)** 🛣️ | Road Object Detection | Traffic analysis, smart city applications, safety systems |
+| **[marearts-crystal](https://pypi.org/project/marearts-crystal/)** 🔐 | Encryption & Licensing | Software licensing, data security, key management |
+| **[marearts-xcolor](https://pypi.org/project/marearts-xcolor/)** 🎨 | High-performance color extraction | Color detection apps, dominant color query systems |
+
 ## Support
 
 - **Email**: hello@marearts.com
