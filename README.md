@@ -5,21 +5,20 @@
 [![Downloads](https://pepy.tech/badge/marearts-crystal)](https://pepy.tech/project/marearts-crystal)
 [![License](https://img.shields.io/pypi/l/marearts-crystal.svg)](https://github.com/MareArts/marearts-crystal/blob/main/LICENSE)
 
-Professional encryption library for Python applications. Secure your software licenses, encrypt sensitive files, and protect user data with military-grade encryption.
+Python encryption library for software licensing and data protection. Simple, fast, and cross-platform.
 
-**What is this?** A tool that lets you encrypt (lock) and decrypt (unlock) data using secret keys, like a digital safe that only you can open.
+## 🎯 Core Features
 
-**Use Cases:**
-- 🔐 **Software Licensing** - Generate and validate license keys for your applications
-- 📁 **File Protection** - Encrypt sensitive documents, images, or any files
-- 🔑 **Password Management** - Securely store passwords and credentials
-- ⚙️ **Config Security** - Protect API keys and database credentials in config files
-- 📊 **Data Privacy** - Encrypt user data for GDPR/HIPAA compliance
+- **Software Licensing** - Generate and validate time-limited license keys with signatures
+- **File Encryption** - Protect any file type with filename-based encryption
+- **Data Security** - Encrypt strings, configs, and binary data with one line of code
 
-**Why MareArts Crystal?**
-- **Zero Setup** - Pre-compiled for all platforms, just `pip install` and use
-- **Production Ready** - Used by companies for real-world applications
-- **Fast** - C++ performance with Python simplicity
+## 💡 Why MareArts Crystal?
+
+- **Simple** - Just `pip install marearts-crystal` and start coding
+- **Fast** - Cython-compiled for C++ performance
+- **Compatible** - Python 3.9-3.12, Windows/macOS/Linux
+- **Proven** - Used in production by real businesses
 
 ## Installation
 

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MareArts Crystal - Professional Encryption Library for Python</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.4;
+            color: #333;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fafafa;
+            max-width: 1600px;
+        }
+        
+        /* Typography */
+        h1 {
+            text-align: center;
+            color: #212121;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        h2 {
+            color: #212121;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+        
+        h3 {
+            color: #424242;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        p {
+            color: #616161;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        a {
+            color: #1976d2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        a:hover {
+            color: #0d47a1;
+            text-decoration: underline;
+        }
+        
+        /* Badge Section */
+        .badges {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .badges img {
+            margin: 0 5px;
+        }
+        
+        /* Introduction */
+        .intro {
+            text-align: center;
+            font-size: 1.15em;
+            color: #616161;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        
+        /* Feature List */
+        .feature-list {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            margin: 15px 0;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .feature-list li {
+            margin: 8px 0;
+            color: #616161;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .feature-list strong {
+            color: #212121;
+            font-weight: 600;
+        }
+        
+        /* Code Blocks */
+        pre {
+            background-color: #263238;
+            color: #eceff1;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            line-height: 1.5;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+        
+        code {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        /* Syntax Highlighting */
+        .comment {
+            color: #78909c;
+            font-style: italic;
+        }
+        
+        .keyword {
+            color: #ce93d8;
+        }
+        
+        .string {
+            color: #a5d6a7;
+        }
+        
+        .function {
+            color: #80cbc4;
+        }
+        
+        .number {
+            color: #ffcc80;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #f0f0f0;
+            table-layout: fixed;
+        }
+        
+        th {
+            background-color: #fafafa;
+            color: #212121;
+            padding: 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        th:first-child {
+            width: 35%;
+        }
+        
+        th:nth-child(2) {
+            width: 25%;
+        }
+        
+        th:last-child {
+            width: 40%;
+        }
+        
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #f0f0f0;
+            color: #616161;
+            font-size: 14px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        td code.inline {
+            display: inline-block;
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+        
+        tr:hover {
+            background-color: #fafafa;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Feature Cards Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card h3 {
+            color: #212121;
+            margin-bottom: 8px;
+            margin-top: 0;
+            font-weight: 600;
+        }
+        
+        .feature-card ul {
+            color: #616161;
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .feature-card li {
+            color: #616161;
+            margin: 4px 0;
+            line-height: 1.6;
+        }
+        
+        /* Package Family Table */
+        .package-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .package-table td:first-child {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        /* Inline Code */
+        code.inline {
+            background-color: #f5f5f5;
+            color: #424242;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        /* Use Cases Section */
+        .use-cases {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .use-cases ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .use-cases li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .use-cases li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>MareArts Crystal</h1>
+    
+    <div class="badges">
+        <a href="https://pypi.org/project/marearts-crystal/"><img src="https://img.shields.io/pypi/v/marearts-crystal.svg" alt="PyPI"></a>
+        <a href="https://pypi.org/project/marearts-crystal/"><img src="https://img.shields.io/pypi/pyversions/marearts-crystal.svg" alt="Python versions"></a>
+        <a href="https://pepy.tech/project/marearts-crystal"><img src="https://pepy.tech/badge/marearts-crystal" alt="Downloads"></a>
+        <a href="https://github.com/MareArts/marearts-crystal/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/marearts-crystal.svg" alt="License"></a>
+    </div>
+    
+    <p class="intro">Python encryption library for software licensing and data protection. Simple, fast, and cross-platform.</p>
+    
+    <div class="feature-list">
+        <h3>🎯 Core Features</h3>
+        <ul>
+            <li><strong>Software Licensing</strong> - Generate and validate time-limited license keys with signatures</li>
+            <li><strong>File Encryption</strong> - Protect any file type with filename-based encryption</li>
+            <li><strong>Data Security</strong> - Encrypt strings, configs, and binary data with one line of code</li>
+        </ul>
+    </div>
+    
+    <div class="feature-list">
+        <h3>💡 Why MareArts Crystal?</h3>
+        <ul>
+            <li><strong>Simple</strong> - Just <code class="inline">pip install marearts-crystal</code> and start coding</li>
+            <li><strong>Fast</strong> - Cython-compiled for C++ performance</li>
+            <li><strong>Compatible</strong> - Python 3.9-3.12, Windows/macOS/Linux</li>
+            <li><strong>Proven</strong> - Used in production by real businesses</li>
+        </ul>
+    </div>
+    
+    <h2>🚀 Installation</h2>
+    <pre><code>pip install marearts-crystal</code></pre>
+    
+    <p>Requirements: Python 3.9-3.12, Windows/macOS/Linux</p>
+    
+    <h2>Quick Start</h2>
+    
+    <h3>License Key Generation</h3>
+    <pre><code><span class="keyword">from</span> <span class="string">marearts_crystal</span> <span class="keyword">import</span> ma_crystal
+
+mask = <span class="function">ma_crystal</span>(<span class="string">"your-company-secret"</span>)
+
+<span class="comment"># Generate license key with signature</span>
+today = mask.<span class="function">get_today_date</span>()  <span class="comment"># "2025-09-12"</span>
+expire = mask.<span class="function">generate_end_date</span>(years=<span class="number">1</span>)  <span class="comment"># "2026-09-12"</span>
+license_key, signature = mask.<span class="function">generate_serial_key</span>(<span class="string">"customer@email.com"</span>, today, expire)
+
+<span class="function">print</span>(<span class="string">f"License Key: {license_key}"</span>)
+<span class="comment"># Output: License Key: MAEV2:gAAAAABow91CXuG7dJR3eAWpEXj67RP-qboPAHiDGpVfd2dGN5yBXp...</span>
+
+<span class="function">print</span>(<span class="string">f"Signature: {signature}"</span>)
+<span class="comment"># Output: Signature: a21521da5beb6d7c</span>
+
+<span class="comment"># Validate license</span>
+result = mask.<span class="function">validate_serial_key</span>(<span class="string">"customer@email.com"</span>, license_key)
+<span class="keyword">if</span> result:
+    start_date, end_date, signature = result
+    <span class="comment"># start_date = "2025-09-12", end_date = "2026-09-12", signature = "a21521da5beb6d7c"</span>
+    <span class="keyword">if</span> mask.<span class="function">validate_date</span>(start_date, end_date):
+        <span class="function">print</span>(<span class="string">f"✅ License active until {end_date}"</span>)
+        <span class="comment"># Output: ✅ License active until 2026-09-12</span></code></pre>
+    
+    <pre><code><span class="comment"># Using signature for tracking</span>
+license_db = {}  <span class="comment"># Your database</span>
+
+<span class="comment"># Store license with signature</span>
+license_key, signature = mask.<span class="function">generate_serial_key</span>(<span class="string">"user@email.com"</span>, today, expire)
+license_db[signature] = {
+    <span class="string">"email"</span>: <span class="string">"user@email.com"</span>,
+    <span class="string">"key"</span>: license_key,
+    <span class="string">"created"</span>: today
+}
+
+<span class="comment"># Later, verify and track</span>
+result = mask.<span class="function">validate_serial_key</span>(<span class="string">"user@email.com"</span>, license_key)
+<span class="keyword">if</span> result:
+    start, end, sig = result
+    <span class="function">print</span>(<span class="string">f"License {sig} is valid"</span>)  <span class="comment"># Use signature as ID</span></code></pre>
+    
+    <h3>File Encryption</h3>
+    <pre><code><span class="comment"># Encrypt file</span>
+<span class="keyword">with</span> <span class="function">open</span>(<span class="string">"document.pdf"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:
+    file_data = f.<span class="function">read</span>()  <span class="comment"># Read original file (e.g., 241979 bytes)</span>
+
+encrypted = mask.<span class="function">encrypt_data</span>(file_data)
+<span class="function">print</span>(<span class="string">f"Encrypted size: {len(encrypted)} bytes"</span>)
+<span class="comment"># Output: Encrypted size: 322724 bytes</span>
+
+<span class="keyword">with</span> <span class="function">open</span>(<span class="string">"document.pdf.enc"</span>, <span class="string">"wb"</span>) <span class="keyword">as</span> f:
+    f.<span class="function">write</span>(encrypted)
+
+<span class="comment"># Decrypt file</span>
+<span class="keyword">with</span> <span class="function">open</span>(<span class="string">"document.pdf.enc"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:
+    encrypted_data = f.<span class="function">read</span>()
+
+decrypted = mask.<span class="function">decrypt_data</span>(encrypted_data)
+<span class="function">print</span>(<span class="string">f"Decrypted size: {len(decrypted)} bytes"</span>)
+<span class="comment"># Output: Decrypted size: 241979 bytes (matches original)</span>
+
+<span class="keyword">with</span> <span class="function">open</span>(<span class="string">"document_decrypted.pdf"</span>, <span class="string">"wb"</span>) <span class="keyword">as</span> f:
+    f.<span class="function">write</span>(decrypted)
+<span class="function">print</span>(<span class="string">"✅ File successfully decrypted"</span>)
+<span class="comment"># Output: ✅ File successfully decrypted</span></code></pre>
+    
+    <h2>More Examples</h2>
+    
+    <div class="feature-list">
+        <h3>Python Examples (<a href="https://github.com/MareArts/marearts-crystal/tree/main/examples">View on GitHub</a>)</h3>
+        <ul>
+            <li>License key generation and validation</li>
+            <li>File encryption/decryption</li>
+            <li>Config file encryption</li>
+            <li>License manager class implementation</li>
+            <li>Password vault implementation</li>
+            <li>All API methods demonstration</li>
+        </ul>
+    </div>
+    
+    <div class="feature-list">
+        <h3>Jupyter Notebook (<a href="https://github.com/MareArts/marearts-crystal/blob/main/examples/examples.ipynb">Interactive Tutorial</a>)</h3>
+        <ul>
+            <li>Interactive step-by-step tutorial</li>
+            <li>Visual output of each operation</li>
+            <li>Real-time testing environment</li>
+        </ul>
+    </div>
+    
+    <h2>API Reference</h2>
+    
+    <h3>Basic Methods</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Description</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code class="inline">generate_serial_key(username, start_date, end_date)</code></td>
+                <td>Generate a license key with signature</td>
+                <td><code class="inline">key, signature = mask.generate_serial_key("user", "2025-09-10", "2025-12-31")</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">validate_serial_key(username, serial_key)</code></td>
+                <td>Validate a license key</td>
+                <td><code class="inline">result = mask.validate_serial_key("user", key)</code> # Returns (start_date, end_date, signature)</td>
+            </tr>
+            <tr>
+                <td><code class="inline">encrypt_string(text)</code></td>
+                <td>Encrypt text</td>
+                <td><code class="inline">encrypted = mask.encrypt_string("secret")</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">decrypt_string(encrypted)</code></td>
+                <td>Decrypt text</td>
+                <td><code class="inline">text = mask.decrypt_string(encrypted)</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">encrypt_data(bytes)</code></td>
+                <td>Encrypt binary data</td>
+                <td><code class="inline">encrypted = mask.encrypt_data(b"data")</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">decrypt_data(encrypted)</code></td>
+                <td>Decrypt binary data</td>
+                <td><code class="inline">data = mask.decrypt_data(encrypted)</code></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h3>Utility Methods</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Method</th>
+                <th>Description</th>
+                <th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code class="inline">get_today_date()</code></td>
+                <td>Get today's date (YYYY-MM-DD)</td>
+                <td><code class="inline">today = mask.get_today_date()</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">generate_end_date(years, months, days)</code></td>
+                <td>Calculate future date</td>
+                <td><code class="inline">expire = mask.generate_end_date(years=1)</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">validate_date(start, end)</code></td>
+                <td>Check if current date is in range</td>
+                <td><code class="inline">valid = mask.validate_date("2025-09-10", "2025-12-31")</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">is_v2_serial_key(key)</code></td>
+                <td>Check if key uses V2 format</td>
+                <td><code class="inline">is_v2 = mask.is_v2_serial_key(key)</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">is_v2_data(data)</code></td>
+                <td>Check if data uses V2 encryption</td>
+                <td><code class="inline">is_v2 = mask.is_v2_data(data)</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">string_to_secret_key(input_string)</code></td>
+                <td>Derive key from string</td>
+                <td><code class="inline">key = mask.string_to_secret_key("password")</code></td>
+            </tr>
+            <tr>
+                <td><code class="inline">secret_key_to_string(secret_key, encrypted)</code></td>
+                <td>Decrypt with provided key</td>
+                <td><code class="inline">text = mask.secret_key_to_string(key, encrypted)</code></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>🔗 MareArts AI Package Family</h2>
+    
+    <p>MareArts Crystal is part of our comprehensive AI and utility package ecosystem:</p>
+    
+    <table class="package-table">
+        <thead>
+            <tr>
+                <th>Package</th>
+                <th>Description</th>
+                <th>Use Case</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong><a href="https://pypi.org/project/marearts-anpr/">marearts-anpr</a></strong> 🚗</td>
+                <td>License Plate Recognition</td>
+                <td>Vehicle identification, parking systems, traffic monitoring</td>
+            </tr>
+            <tr>
+                <td><strong><a href="https://pypi.org/project/marearts-road-objects/">marearts-road-objects</a></strong> 🛣️</td>
+                <td>Road Object Detection</td>
+                <td>Traffic analysis, smart city applications, safety systems</td>
+            </tr>
+            <tr>
+                <td><strong><a href="https://pypi.org/project/marearts-crystal/">marearts-crystal</a></strong> 🔐</td>
+                <td>Encryption & Licensing</td>
+                <td>Software licensing, data security, key management</td>
+            </tr>
+            <tr>
+                <td><strong><a href="https://pypi.org/project/marearts-xcolor/">marearts-xcolor</a></strong> 🎨</td>
+                <td>High-performance color extraction</td>
+                <td>Color detection apps, dominant color query systems</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <h2>Support</h2>
+    
+    <div class="feature-list">
+        <ul>
+            <li><strong>Email</strong>: hello@marearts.com</li>
+            <li><strong>Website</strong>: <a href="https://marearts.com">marearts.com</a></li>
+        </ul>
+    </div>
+    
+    <h2>License</h2>
+    
+    <p>MIT License</p>
+    
+    <p style="text-align: center; margin-top: 40px; color: #999;">
+        <a href="https://github.com/MareArts/marearts-crystal">View on GitHub</a>
+    </p>
+</body>
+</html>
