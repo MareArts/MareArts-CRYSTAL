@@ -6,6 +6,7 @@ All examples from the README documentation
 import json
 import tempfile
 import os
+import sys
 from datetime import datetime
 
 def example_quick_start():
@@ -19,18 +20,20 @@ def example_quick_start():
     # Initialize
     mask = ma_crystal("your-secret-key")
 
-    # Encrypt data
+    # Encrypt data (filename-bound)
     data = b"Sensitive information"
-    encrypted = mask.encrypt_data(data)
-    decrypted = mask.decrypt_data(encrypted)
+    encrypted = mask.encrypt_data(data, "quickstart.bin")
+    decrypted = mask.decrypt_data(encrypted, "quickstart.bin")
     
     print(f"Original: {data}")
     print(f"Encrypted: {encrypted[:50]}...")
     print(f"Decrypted: {decrypted}")
     print(f"Success: {decrypted == data}")
 
-    # Generate serial key
-    serial_key, signature = mask.generate_serial_key("user@email.com", "2025-09-10", "2025-12-31")
+    # Generate serial key with dynamic dates
+    today = mask.get_today_date()
+    expire = mask.generate_end_date(months=3)
+    serial_key, signature = mask.generate_serial_key("user@email.com", today, expire)
     valid = mask.validate_serial_key("user@email.com", serial_key)
     
     print(f"\nSerial Key: {serial_key}")
@@ -220,14 +223,20 @@ def example_password_vault():
             self.mask = ma_crystal(master_password)
         
         def store_password(self, service, username, password):
-            data = f"{service}|{username}|{password}"
-            return self.mask.encrypt_string(data)
+            payload = {
+                "service": service,
+                "username": username,
+                "password": password,
+            }
+            return self.mask.encrypt_string(json.dumps(payload))
         
         def get_password(self, encrypted_data):
             decrypted = self.mask.decrypt_string(encrypted_data)
             if decrypted:
-                service, username, password = decrypted.split("|")
-                return {"service": service, "username": username, "password": password}
+                try:
+                    return json.loads(decrypted)
+                except json.JSONDecodeError:
+                    return None
             return None
 
     # Usage
@@ -256,7 +265,9 @@ def example_api_methods():
     print("Testing all API methods:")
     
     # Test basic methods
-    key, signature = mask.generate_serial_key("user", "2025-09-10", "2025-12-31")
+    today = mask.get_today_date()
+    expire = mask.generate_end_date(months=3)
+    key, signature = mask.generate_serial_key("user", today, expire)
     result = mask.validate_serial_key("user", key)
     print(f"Serial key validation: {result is not None}")
     
@@ -264,8 +275,8 @@ def example_api_methods():
     text = mask.decrypt_string(encrypted_str)
     print(f"String encryption: {text == 'secret'}")
     
-    encrypted_data = mask.encrypt_data(b"data")
-    data = mask.decrypt_data(encrypted_data)
+    encrypted_data = mask.encrypt_data(b"data", "data.bin")
+    data = mask.decrypt_data(encrypted_data, "data.bin")
     print(f"Data encryption: {data == b'data'}")
     
     # Test utility methods
@@ -275,7 +286,7 @@ def example_api_methods():
     expire = mask.generate_end_date(years=1)
     print(f"Future date: {expire}")
     
-    valid = mask.validate_date("2025-09-10", "2025-12-31")
+    valid = mask.validate_date(today, expire)
     print(f"Date validation: {valid}")
     
     is_v2_key = mask.is_v2_serial_key(key)
@@ -286,7 +297,7 @@ def example_api_methods():
     
     # Test additional methods
     derived_key = mask.string_to_secret_key("password")
-    print(f"Key derivation: {isinstance(derived_key, str)}")
+    print(f"Key derivation: {bool(derived_key)}")
     
     print("All API methods completed successfully!\n")
 
@@ -307,14 +318,20 @@ def main():
     
     print("Running all examples from README...\n")
     
+    failed_examples = []
     for example in examples:
         try:
             example()
         except Exception as e:
             print(f"❌ {example.__name__} failed: {e}\n")
+            failed_examples.append(example.__name__)
     
     print("="*70)
-    print("🎉 All examples completed! Check output above for results.")
+    if failed_examples:
+        print(f"❌ Completed with failures: {', '.join(failed_examples)}")
+        print("="*70)
+        sys.exit(1)
+    print("🎉 All examples completed successfully!")
     print("="*70)
 
 if __name__ == "__main__":

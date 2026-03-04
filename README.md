@@ -10,14 +10,14 @@ Python encryption library for software licensing and data protection. Simple, fa
 ## 🎯 Core Features
 
 - **Software Licensing** - Generate and validate time-limited license keys with signatures
-- **File Encryption** - Protect any file type with filename-based encryption
+- **File Encryption** - Protect any file type with filename-bound encryption
 - **Data Security** - Encrypt strings, configs, and binary data with one line of code
 
 ## 💡 Why MareArts Crystal?
 
 - **Simple** - Just `pip install marearts-crystal` and start coding
 - **Fast** - Cython-compiled for C++ performance
-- **Compatible** - Python 3.9-3.12, Windows/macOS/Linux
+- **Compatible** - Python 3.9-3.14, Windows/macOS/Linux
 - **Proven** - Used in production by real businesses
 
 ## Installation
@@ -26,7 +26,7 @@ Python encryption library for software licensing and data protection. Simple, fa
 pip install marearts-crystal
 ```
 
-Requirements: Python 3.9-3.12, Windows/macOS/Linux
+Requirements: Python 3.9-3.14, Windows/macOS/Linux
 
 ## Quick Start
 
@@ -84,7 +84,7 @@ if result:
 with open("document.pdf", "rb") as f:
     file_data = f.read()  # Read original file (e.g., 241979 bytes)
 
-encrypted = mask.encrypt_data(file_data)
+encrypted = mask.encrypt_data(file_data, "document.pdf")
 print(f"Encrypted size: {len(encrypted)} bytes")
 # Output: Encrypted size: 322724 bytes
 
@@ -95,7 +95,7 @@ with open("document.pdf.enc", "wb") as f:
 with open("document.pdf.enc", "rb") as f:
     encrypted_data = f.read()
 
-decrypted = mask.decrypt_data(encrypted_data)
+decrypted = mask.decrypt_data(encrypted_data, "document.pdf")
 print(f"Decrypted size: {len(decrypted)} bytes")
 # Output: Decrypted size: 241979 bytes (matches original)
 
@@ -130,8 +130,8 @@ print("✅ File successfully decrypted")
 | `validate_serial_key(username, serial_key)` | Validate a license key | `result = mask.validate_serial_key("user", key)` # Returns (start_date, end_date, signature) |
 | `encrypt_string(text)` | Encrypt text | `encrypted = mask.encrypt_string("secret")` |
 | `decrypt_string(encrypted)` | Decrypt text | `text = mask.decrypt_string(encrypted)` |
-| `encrypt_data(bytes)` | Encrypt binary data | `encrypted = mask.encrypt_data(b"data")` |
-| `decrypt_data(encrypted)` | Decrypt binary data | `data = mask.decrypt_data(encrypted)` |
+| `encrypt_data(bytes, filename)` | Encrypt binary data (recommended: filename-bound) | `encrypted = mask.encrypt_data(b"data", "file.bin")` |
+| `decrypt_data(encrypted, filename)` | Decrypt binary data | `data = mask.decrypt_data(encrypted, "file.bin")` |
 
 ### Utility Methods
 

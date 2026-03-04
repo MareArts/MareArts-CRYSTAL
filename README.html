@@ -309,7 +309,7 @@
         <h3>🎯 Core Features</h3>
         <ul>
             <li><strong>Software Licensing</strong> - Generate and validate time-limited license keys with signatures</li>
-            <li><strong>File Encryption</strong> - Protect any file type with filename-based encryption</li>
+            <li><strong>File Encryption</strong> - Protect any file type with filename-bound encryption</li>
             <li><strong>Data Security</strong> - Encrypt strings, configs, and binary data with one line of code</li>
         </ul>
     </div>
@@ -319,7 +319,7 @@
         <ul>
             <li><strong>Simple</strong> - Just <code class="inline">pip install marearts-crystal</code> and start coding</li>
             <li><strong>Fast</strong> - Cython-compiled for C++ performance</li>
-            <li><strong>Compatible</strong> - Python 3.9-3.12, Windows/macOS/Linux</li>
+            <li><strong>Compatible</strong> - Python 3.9-3.14, Windows/macOS/Linux</li>
             <li><strong>Proven</strong> - Used in production by real businesses</li>
         </ul>
     </div>
@@ -327,7 +327,7 @@
     <h2>🚀 Installation</h2>
     <pre><code>pip install marearts-crystal</code></pre>
     
-    <p>Requirements: Python 3.9-3.12, Windows/macOS/Linux</p>
+    <p>Requirements: Python 3.9-3.14, Windows/macOS/Linux</p>
     
     <h2>Quick Start</h2>
     
@@ -378,7 +378,7 @@ result = mask.<span class="function">validate_serial_key</span>(<span class="str
 <span class="keyword">with</span> <span class="function">open</span>(<span class="string">"document.pdf"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:
     file_data = f.<span class="function">read</span>()  <span class="comment"># Read original file (e.g., 241979 bytes)</span>
 
-encrypted = mask.<span class="function">encrypt_data</span>(file_data)
+encrypted = mask.<span class="function">encrypt_data</span>(file_data, <span class="string">"document.pdf"</span>)
 <span class="function">print</span>(<span class="string">f"Encrypted size: {len(encrypted)} bytes"</span>)
 <span class="comment"># Output: Encrypted size: 322724 bytes</span>
 
@@ -389,7 +389,7 @@ encrypted = mask.<span class="function">encrypt_data</span>(file_data)
 <span class="keyword">with</span> <span class="function">open</span>(<span class="string">"document.pdf.enc"</span>, <span class="string">"rb"</span>) <span class="keyword">as</span> f:
     encrypted_data = f.<span class="function">read</span>()
 
-decrypted = mask.<span class="function">decrypt_data</span>(encrypted_data)
+decrypted = mask.<span class="function">decrypt_data</span>(encrypted_data, <span class="string">"document.pdf"</span>)
 <span class="function">print</span>(<span class="string">f"Decrypted size: {len(decrypted)} bytes"</span>)
 <span class="comment"># Output: Decrypted size: 241979 bytes (matches original)</span>
 
@@ -454,14 +454,14 @@ decrypted = mask.<span class="function">decrypt_data</span>(encrypted_data)
                 <td><code class="inline">text = mask.decrypt_string(encrypted)</code></td>
             </tr>
             <tr>
-                <td><code class="inline">encrypt_data(bytes)</code></td>
-                <td>Encrypt binary data</td>
-                <td><code class="inline">encrypted = mask.encrypt_data(b"data")</code></td>
+                <td><code class="inline">encrypt_data(bytes, filename)</code></td>
+                <td>Encrypt binary data (recommended: filename-bound)</td>
+                <td><code class="inline">encrypted = mask.encrypt_data(b"data", "file.bin")</code></td>
             </tr>
             <tr>
-                <td><code class="inline">decrypt_data(encrypted)</code></td>
+                <td><code class="inline">decrypt_data(encrypted, filename)</code></td>
                 <td>Decrypt binary data</td>
-                <td><code class="inline">data = mask.decrypt_data(encrypted)</code></td>
+                <td><code class="inline">data = mask.decrypt_data(encrypted, "file.bin")</code></td>
             </tr>
         </tbody>
     </table>
